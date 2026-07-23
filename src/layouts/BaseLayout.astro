@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+const { title = 'ruijieking的博客' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+function navClass(href: string) {
+  const isActive = currentPath === href;
+  return isActive
+    ? 'text-accent bg-accent/10 font-medium'
+    : 'text-fg/60 hover:text-accent hover:bg-fg/5';
+}
+---
+
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+
+  <body class="bg-bg text-fg min-h-screen flex flex-col">
+    <!-- 岛屿式导航栏：悬浮胶囊 + 毛玻璃 -->
+    <header class="sticky top-4 z-50 flex justify-center">
+      <div class="flex items-center gap-6 px-6 py-3 rounded-full
+                  bg-bg/70 backdrop-blur-xl
+                  shadow-lg shadow-black/5
+                  ring-1 ring-fg/10
+                  text-sm">
+        <a href="/" class="font-bold text-accent hover:opacity-80 transition-opacity">ruijieking</a>
+        <nav class="flex items-center gap-1">
+          <a href="/blog" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/blog')]}>文章</a>
+          <a href="/about" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/about')]}>关于我</a>
+          <a href="/talk" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/talk')]}>今日说法</a>
+          <a href="/photo" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/photo')]}>照片</a>
+          <ThemeToggle />
+        </nav>
+      </div>
+    </header>
+
+    <!-- slot 是"页面内容插入的洞"：layout 提供外壳，页面的内容填进这里 -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="px-8 py-6 border-t border-fg/10 text-sm opacity-60">
+      © 2026 ruijieking
+    </footer>
+  </body>
+</html>

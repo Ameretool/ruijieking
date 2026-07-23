@@ -1,0 +1,29 @@
+@import "tailwindcss";
+/* 5. 告诉 v4 去扫 .astro 里的类名（你旧项目验证过，不写它扫不到） */
+@source "../**/*.astro";
+/* 1. 清空默认调色板：产物里不再带 red/blue/green 几百个色，只留你定义的 */
+@theme {
+  --color-*: initial;
+}
+
+/* 2. inline 是关键：让 class 在编译时内联底层变量，明暗切换才会在运行时生效 */
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-fg: var(--c-fg);
+  --color-accent: var(--c-accent);
+}
+
+/* 3. 明模式的值 */
+:root {
+  --c-bg: #fafafa;
+  --c-fg: #1a1a1a;
+  --c-accent: #2563eb;
+}
+
+/* 4. 暗模式的值：同名变量换一套值，引用语义色的 class 自动跟着变 */
+[data-theme="dark"] {
+  --c-bg: #0f0f12;
+  --c-fg: #e8e8ea;
+  --c-accent: #60a5fa;
+}
+
