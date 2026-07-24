@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import WallpaperPicker from '../components/WallpaperPicker.astro';
 
 const { title = 'ruijieking的博客' } = Astro.props;
 const currentPath = Astro.url.pathname;
@@ -58,6 +59,7 @@ function navClass(href: string) {
           <a href="/talk" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/talk')]}>今日说法</a>
           <a href="/photo" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/photo')]}>照片</a>
           <ThemeToggle />
+          <WallpaperPicker />
         </nav>
       </div>
     </header>
