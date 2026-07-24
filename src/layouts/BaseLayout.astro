@@ -20,14 +20,27 @@ function navClass(href: string) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
 
-    <script is:inline>
-      (function () {
-        var stored = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var theme = stored || (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
+  <script is:inline>
+  // ===== 第一层：首屏防闪（FOUC）=====
+  // 必须在 head 里同步执行，在浏览器画第一帧之前设好主题
+  (function () {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = stored || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+
+  // ===== 第二层：ClientRouter 切页防闪 =====
+  // ClientRouter 导航后不重跑 inline 脚本，
+  // 必须监听 astro:after-swap 事件，在新页面渲染前重新设主题
+  function applyTheme() {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = stored || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  document.addEventListener('astro:after-swap', applyTheme);
+  </script>
   </head>
 
   <body class="bg-bg text-fg min-h-screen flex flex-col">
