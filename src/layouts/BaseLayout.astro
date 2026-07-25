@@ -1,4 +1,5 @@
 ---
+//默认布局，所有页面都必须套上这个布局，不然壁纸和导航栏功能不能正常工作
 import '../styles/global.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import WallpaperPicker from '../components/WallpaperPicker.astro';
@@ -47,11 +48,10 @@ function navClass(href: string) {
   <body class="bg-bg text-fg min-h-screen flex flex-col">
     <!-- 岛屿式导航栏：悬浮胶囊 + 毛玻璃 -->
     <header class="sticky top-4 z-50 flex justify-center">
-      <div class="flex items-center gap-6 px-6 py-3 rounded-full
-                  bg-bg/70 backdrop-blur-xl
+      <div class="flex items-center gap-150 px-20 py-4 rounded-full
+                  bg-bg/15 backdrop-blur-2xl
                   shadow-lg shadow-black/5
-                  ring-1 ring-fg/10
-                  text-sm">
+                  text-lg">
         <a href="/" class="font-bold text-accent hover:opacity-80 transition-opacity">ruijieking</a>
         <nav class="flex items-center gap-1">
           <a href="/blog" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/blog')]}>文章</a>
@@ -70,7 +70,7 @@ function navClass(href: string) {
     </main>
 
     <footer class="px-8 py-6 border-t border-fg/10 text-sm opacity-60">
-      © 2026 ruijieking
+      ruijieking
     </footer>
   </body>
 </html>

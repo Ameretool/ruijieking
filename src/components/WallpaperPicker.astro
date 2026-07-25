@@ -1,4 +1,5 @@
 ---
+// 壁纸选择器组件
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -91,19 +92,79 @@ const darkImages = fs.readdirSync(darkDir)
     return `wallpaper-${getTheme()}`;
   }
 
-  // 应用壁纸为 body 背景
+  // ===== 双图层壁纸系统（Linux 风格kde交叉淡入淡出） =====
+  const layerA = document.createElement('div');
+  const layerB = document.createElement('div');
+
+  [layerA, layerB].forEach((layer, i) => {
+    layer.id = `wp-layer-${i === 0 ? 'a' : 'b'}`;
+    layer.style.cssText = `
+      position: fixed; inset: 0; z-index: -1;
+      background-size: cover; background-position: center;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    `;
+    document.body.prepend(layer);
+  });
+
+  let activeLayer = layerA;      // 当前可见图层
+  let inactiveLayer = layerB;    // 待切换的隐藏图层
+  let currentSrc = null;         // 当前显示的壁纸路径
+  let transitionTimer = null;    // 动画定时器
+
+  // 交换活跃/非活跃图层
+  function swapLayers() {
+    const tmp = activeLayer;
+    activeLayer = inactiveLayer;
+    inactiveLayer = tmp;
+  }
+
+  // 应用壁纸（带动画）
   function applyWallpaper(src) {
-    if (src) {
-      document.body.style.backgroundImage = `url(${src})`;
-      document.body.style.backgroundSize = 'cover';
-      document.body.style.backgroundPosition = 'center';
-      document.body.style.backgroundAttachment = 'fixed';
-    } else {
-      document.body.style.backgroundImage = '';
-      document.body.style.backgroundSize = '';
-      document.body.style.backgroundPosition = '';
-      document.body.style.backgroundAttachment = '';
+    // 清除壁纸：图层淡出，恢复 body 主题背景色
+    if (!src) {
+      currentSrc = null;
+      document.body.style.backgroundColor = '';
+      activeLayer.style.opacity = '0';
+      inactiveLayer.style.opacity = '0';
+      return;
     }
+
+    // 同一张壁纸不重复切换
+    if (src === currentSrc) return;
+
+    // 让 body 背景透明，壁纸才能透过来
+    document.body.style.backgroundColor = 'transparent';
+
+    // 首次加载：直接显示，无动画
+    if (!currentSrc) {
+      currentSrc = src;
+      activeLayer.style.backgroundImage = `url(${encodeURI(src)})`;
+      activeLayer.style.opacity = '1';
+      inactiveLayer.style.opacity = '0';
+      return;
+    }
+
+    // 清除上一次可能残留的定时器
+    if (transitionTimer) clearTimeout(transitionTimer);
+
+    // 切换动画：新壁纸加载到隐藏图层 → 交叉淡入淡出
+    inactiveLayer.style.backgroundImage = `url(${encodeURI(src)})`;
+
+    // 强制回流，确保浏览器注册了新背景图
+    inactiveLayer.offsetHeight;
+
+    // 触发动画：新图层淡入，旧图层淡出
+    inactiveLayer.style.opacity = '1';
+    activeLayer.style.opacity = '0';
+
+    currentSrc = src;
+
+    // 动画完成后清理旧图层并交换
+    transitionTimer = setTimeout(() => {
+      activeLayer.style.backgroundImage = '';
+      swapLayers();
+    }, 650);
   }
 
   function selectWallpaper(src) {
@@ -150,7 +211,7 @@ const darkImages = fs.readdirSync(darkDir)
         aria-label="选择壁纸"
       >
         <img
-          src="${src}"
+          src="${encodeURI(src)}"
           alt="壁纸"
           loading="eager"
           decoding="sync"
@@ -208,7 +269,13 @@ const darkImages = fs.readdirSync(darkDir)
     }
   });
 
-  // 监听主题变化，自动切换壁纸
+  // 监听主题切换（ThemeToggle 发出的自定义事件，比 MutationObserver 更可靠）
+  document.addEventListener('themechange', () => {
+    restoreWallpaper();
+    if (isOpen) renderGrid();
+  });
+
+  // 兜底：监听 data-theme 属性变化（处理非 ThemeToggle 触发的情况）
   const observer = new MutationObserver(() => {
     restoreWallpaper();
     if (isOpen) renderGrid();
@@ -223,7 +290,13 @@ const darkImages = fs.readdirSync(darkDir)
 
   function restoreWallpaper() {
     const key = getStorageKey();
-    const saved = localStorage.getItem(key);
+    let saved = localStorage.getItem(key);
+    if (!saved) {
+      // 首次访问：随机选一张壁纸
+      const images = getImages();
+      saved = images[Math.floor(Math.random() * images.length)];
+      localStorage.setItem(key, saved);
+    }
     applyWallpaper(saved);
   }
 
