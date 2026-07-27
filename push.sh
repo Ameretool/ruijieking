@@ -2,5 +2,5 @@
 **  再需要上传再终端里面打开需要上传文件夹的根目录输入./push.sh
 **  "  "那里自己修改上传更新内容
 git add .
-git commit -m "增加归档栏和归档页面"
+git commit -m "添加动画组件保持美观连贯性"
 git push origin main
