@@ -1,6 +1,8 @@
 ---
 // 归档时间轴：左侧竖线 + 年份分组 + 可折叠展开，文章前带月日
 import { getCollection } from 'astro:content';
+import FrostedGlass from './FrostedGlass.astro';
+import AnimateIn from './AnimateIn.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.localeCompare(a.data.pubDate),
@@ -23,8 +25,10 @@ function formatMonthDay(dateStr: string) {
 
 <div class="max-w-2xl mx-auto px-6 pt-24 pb-16">
   <p class="text-xs tracking-[0.3em] uppercase text-fg/30 mb-3">TIMELINE / 时光轴</p>
-  <h1 class="text-3xl font-bold mb-14">归档</h1>
+  <h1 class="text-3xl font-bold mb-6">归档</h1>
+  <hr class="border-fg/10 mb-8" />
 
+  <FrostedGlass>
   {posts.length === 0 ? (
     <p class="text-fg/50">还没有文章。</p>
   ) : (
@@ -38,10 +42,11 @@ function formatMonthDay(dateStr: string) {
           summary::marker{content:""}
           details[open] .archive-arrow{transform:rotate(90deg)}
         </style>
-        {years.map((year) => {
+        {years.map((year, i) => {
           const yearPosts = byYear[year];
           const isLatest = year === latestYear;
           return (
+            <AnimateIn delay={i * 100}>
             <details
               class="relative"
               open={isLatest}
@@ -93,9 +98,11 @@ function formatMonthDay(dateStr: string) {
                 ))}
               </div>
             </details>
+            </AnimateIn>
           );
         })}
       </div>
     </div>
   )}
+  </FrostedGlass>
 </div>

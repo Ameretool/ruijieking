@@ -292,9 +292,9 @@ const darkImages = fs.readdirSync(darkDir)
     const key = getStorageKey();
     let saved = localStorage.getItem(key);
     if (!saved) {
-      // 首次访问：随机选一张壁纸
-      const images = getImages();
-      saved = images[Math.floor(Math.random() * images.length)];
+      // 首次访问：使用默认壁纸
+      const theme = getTheme();
+      saved = theme === 'dark' ? '/wallpaper/dark/默认dark.png' : '/wallpaper/light/默认light.png';
       localStorage.setItem(key, saved);
     }
     applyWallpaper(saved);

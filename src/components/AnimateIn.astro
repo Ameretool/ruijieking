@@ -1,0 +1,32 @@
+---
+// 通用入场动画包装组件
+// 用法：<AnimateIn delay={100}> <你的内容 /> </AnimateIn>
+// delay 单位毫秒，用于列表错开动画，默认 0
+export interface Props {
+  delay?: number;
+}
+
+const { delay = 0 } = Astro.props;
+---
+
+<div
+  class="animate-in"
+  style={`animation-delay: ${delay}ms;`}
+>
+  <slot />
+</div>
+
+<style>
+  .animate-in {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -2,6 +2,7 @@
 // 博客文章列表组件
 import { getCollection } from 'astro:content';
 import PostCard from './PostCard.astro';
+import AnimateIn from './AnimateIn.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.localeCompare(a.data.pubDate),
@@ -15,7 +16,11 @@ const posts = (await getCollection('blog')).sort(
     <p class="text-fg/50">还没有文章，敬请期待。</p>
   ) : (
     <div class="flex flex-col gap-4">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.map((post, i) => (
+        <AnimateIn delay={i * 80}>
+          <PostCard post={post} />
+        </AnimateIn>
+      ))}
     </div>
   )}
 </div>
