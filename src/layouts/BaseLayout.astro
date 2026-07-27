@@ -54,10 +54,11 @@ function navClass(href: string) {
                   text-lg">
         <a href="/" class="font-bold text-accent hover:opacity-80 transition-opacity">ruijieking</a>
         <nav class="flex items-center gap-1">
-          <a href="/blog" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/blog')]}>文章</a>
-          <a href="/about" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/about')]}>关于我</a>
           <a href="/talk" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/talk')]}>今日说法</a>
+          <a href="/blog" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/blog')]}>文章</a>
+          <a href="/archive" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/archive')]}>归档</a>
           <a href="/photo" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/photo')]}>照片</a>
+          <a href="/about" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/about')]}>关于我</a>
           <ThemeToggle />
           <WallpaperPicker />
         </nav>

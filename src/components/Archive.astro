@@ -1,0 +1,101 @@
+---
+// 归档时间轴：左侧竖线 + 年份分组 + 可折叠展开，文章前带月日
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.localeCompare(a.data.pubDate),
+);
+
+const byYear: Record<string, typeof posts> = {};
+for (const post of posts) {
+  const year = post.data.pubDate.split('-')[0];
+  (byYear[year] ??= []).push(post);
+}
+
+const years = Object.keys(byYear).sort((a, b) => b.localeCompare(a));
+const latestYear = years[0];
+
+function formatMonthDay(dateStr: string) {
+  const [, month, day] = dateStr.split('-');
+  return `${parseInt(month)}月${parseInt(day)}日`;
+}
+---
+
+<div class="max-w-2xl mx-auto px-6 pt-24 pb-16">
+  <p class="text-xs tracking-[0.3em] uppercase text-fg/30 mb-3">TIMELINE / 时光轴</p>
+  <h1 class="text-3xl font-bold mb-14">归档</h1>
+
+  {posts.length === 0 ? (
+    <p class="text-fg/50">还没有文章。</p>
+  ) : (
+    <div class="relative">
+      <!-- 时间轴竖线 -->
+      <div class="absolute left-[13px] top-2 bottom-2 w-px bg-fg/10"></div>
+
+      <div class="flex flex-col">
+        <style>
+          summary::-webkit-details-marker{display:none}
+          summary::marker{content:""}
+          details[open] .archive-arrow{transform:rotate(90deg)}
+        </style>
+        {years.map((year) => {
+          const yearPosts = byYear[year];
+          const isLatest = year === latestYear;
+          return (
+            <details
+              class="relative"
+              open={isLatest}
+            >
+              {/* 年份摘要行：交互圆点（含箭头） + 年份 + 文章数 */}
+              <summary class="flex items-center gap-6 cursor-pointer
+                               py-3">
+
+                {/* 时间轴交互圆点 — 内含折叠箭头，点击展开/折叠 */}
+                <div class={`relative z-10 w-[26px] h-[26px] rounded-full shrink-0 border-2 flex items-center justify-center transition-all duration-300 ${
+                  isLatest
+                    ? 'bg-accent border-accent'
+                    : 'bg-bg border-accent/30'
+                }`}>
+                  <svg
+                    class={`archive-arrow w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${
+                      isLatest ? 'text-white' : 'text-accent'
+                    }`}
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"
+                  >
+                    <path d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+
+                {/* 年份 + 文章数 */}
+                <span class={`text-xl font-semibold transition-colors duration-200 ${
+                  isLatest ? 'text-accent' : 'text-accent/45'
+                }`}>
+                  {year}
+                  <span class="ml-1.5 text-sm font-normal opacity-60">({yearPosts.length})</span>
+                </span>
+              </summary>
+
+              {/* 该年份下的文章列表（展开可见） */}
+              <div class="ml-[50px] mt-2 mb-8 flex flex-col gap-3">
+                {yearPosts.map((post) => (
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="flex items-baseline gap-4 text-base leading-relaxed
+                           text-fg/50 hover:text-accent transition-colors duration-200"
+                  >
+                    <!-- 月日日期 -->
+                    <span class="text-sm text-fg/25 font-mono shrink-0 w-16 text-right">
+                      {formatMonthDay(post.data.pubDate)}
+                    </span>
+                    <!-- 标题 -->
+                    <span>{post.data.title}</span>
+                  </a>
+                ))}
+              </div>
+            </details>
+          );
+        })}
+      </div>
+    </div>
+  )}
+</div>

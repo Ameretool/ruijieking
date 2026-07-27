@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 /* 5. 告诉 v4 去扫 .astro 里的类名（你旧项目验证过，不写它扫不到） */
 @source "../**/*.astro";
 /* 1. 清空默认调色板：产物里不再带 red/blue/green 几百个色，只留你定义的 */
