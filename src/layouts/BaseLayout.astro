@@ -14,15 +14,21 @@ function navClass(href: string) {
     : 'text-fg/60 hover:text-accent hover:bg-fg/5';
 }
 ---
+ 
 
 <!doctype html>
 <html lang="zh">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{title}</title>
 
   <script is:inline>
+  // 更改网页图标的配置代码在这里，默认使用favicon.png名字和格式图片， <link rel="icon" type="image/png" href="/favicon.png" />
+ 
+ 
   // ===== 第一层：首屏防闪（FOUC）=====
   // 必须在 head 里同步执行，在浏览器画第一帧之前设好主题
   (function () {

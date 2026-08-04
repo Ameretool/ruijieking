@@ -2,6 +2,9 @@
 title: 'Astro 前端知识笔记'
 description: '记录 Astro 的基本原理、组件、路由和样式配置。'
 pubDate: '2026-07-25'
+category: '技术教程'
+tags: ['Astro', '前端', 'css',]
+
 ---
 
 
