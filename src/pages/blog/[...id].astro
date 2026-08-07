@@ -2,7 +2,7 @@
 // 博客文章阅读详情页
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FrostedGlass from '../../components/FrostedGlass.astro';
+import ReadFrostedGlass from '../../components/ReadFrostedGlass.astro';
 import AnimateIn from '../../components/AnimateIn.astro';
 import type { CollectionEntry } from 'astro:content';
 
@@ -25,7 +25,7 @@ const { title, description, pubDate, category, tags } = post.data;
 
 <BaseLayout title={`${title} — ruijieking`}>
   <div class="max-w-2xl mx-auto px-6 pt-24 pb-16">
-    <FrostedGlass>
+    <ReadFrostedGlass>
       <!-- 分类标签 -->
       <AnimateIn delay={0}>
       {category && (
@@ -86,6 +86,6 @@ const { title, description, pubDate, category, tags } = post.data;
       <Content />
     </div>
     </AnimateIn>
-    </FrostedGlass>
+    </ReadFrostedGlass>
   </div>
 </BaseLayout>

@@ -1,7 +1,7 @@
 ---
 // 归档时间轴：左侧竖线 + 年份分组 + 可折叠展开，文章前带月日
 import { getCollection } from 'astro:content';
-import FrostedGlass from './FrostedGlass.astro';
+import ReadFrostedGlass from './ReadFrostedGlass.astro';
 import AnimateIn from './AnimateIn.astro';
 
 const posts = (await getCollection('blog')).sort(
@@ -28,7 +28,7 @@ function formatMonthDay(dateStr: string) {
   <h1 class="text-3xl font-bold mb-6">归档</h1>
   <hr class="border-fg/10 mb-8" />
 
-  <FrostedGlass>
+  <ReadFrostedGlass>
   {posts.length === 0 ? (
     <p class="text-fg/50">还没有文章。</p>
   ) : (
@@ -104,5 +104,5 @@ function formatMonthDay(dateStr: string) {
       </div>
     </div>
   )}
-  </FrostedGlass>
+  </ReadFrostedGlass>
 </div>

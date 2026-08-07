@@ -1,7 +1,7 @@
 ---
 // 博客文章卡片组件
 import type { CollectionEntry } from 'astro:content';
-import FrostedGlass from './FrostedGlass.astro';
+import ReadFrostedGlass from './ReadFrostedGlass.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -14,7 +14,7 @@ const href = `/blog/${post.id}`;
 
 <a href={href} class="block group transition-all duration-300
                        hover:-translate-y-0.5">
-  <FrostedGlass>
+  <ReadFrostedGlass>
     <!-- 标题 -->
     <h2 class="text-lg font-bold text-fg group-hover:text-accent
                transition-colors duration-200 leading-snug">
@@ -52,5 +52,5 @@ const href = `/blog/${post.id}`;
       </span>
       )}
     </div>
-  </FrostedGlass>
+  </ReadFrostedGlass>
 </a>

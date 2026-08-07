@@ -177,7 +177,8 @@ const darkImages = fs.readdirSync(darkDir)
 
   function clearWallpaper() {
     const key = getStorageKey();
-    localStorage.removeItem(key);
+    // 用特殊值 'none' 记录清除状态，切页/换主题后也能保持清除
+    localStorage.setItem(key, 'none');
     applyWallpaper(null);
     highlightSelected();
   }
@@ -291,6 +292,11 @@ const darkImages = fs.readdirSync(darkDir)
   function restoreWallpaper() {
     const key = getStorageKey();
     let saved = localStorage.getItem(key);
+    if (saved === 'none') {
+      // 用户主动清除了壁纸：切页/换主题后保持清除状态
+      applyWallpaper(null);
+      return;
+    }
     if (!saved) {
       // 首次访问：使用默认壁纸
       const theme = getTheme();
