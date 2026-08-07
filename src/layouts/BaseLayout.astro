@@ -1,10 +1,12 @@
 ---
 //默认布局，所有页面都必须套上这个布局，不然壁纸和导航栏功能不能正常工作
 import '../styles/global.css';
+import { site } from '../site.config';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import WallpaperPicker from '../components/WallpaperPicker.astro';
 
-const { title = 'ruijieking的博客' } = Astro.props;
+const { title } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : site.defaultTitle;
 const currentPath = Astro.url.pathname;
 
 function navClass(href: string) {
@@ -22,8 +24,12 @@ function navClass(href: string) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
    
+    <meta name="description" content={site.description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={site.description} />
+   
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
 
   <script is:inline>
   // 更改网页图标的配置代码在这里，默认使用favicon.png名字和格式图片， <link rel="icon" type="image/png" href="/favicon.png" />
@@ -54,11 +60,11 @@ function navClass(href: string) {
   <body class="bg-bg text-fg min-h-screen flex flex-col">
     <!-- 岛屿式导航栏：悬浮胶囊 + 毛玻璃 -->
     <header class="sticky top-4 z-50 flex justify-center">
-      <div class="flex items-center gap-150 px-20 py-4 rounded-full
+      <div class="flex items-center gap-150 px-20 py-4 rounded-full{site.name}
                   bg-bg/15 backdrop-blur-2xl
                   shadow-lg shadow-black/5
                   text-lg">
-        <a href="/" class="font-bold text-accent hover:opacity-80 transition-opacity">ruijieking</a>
+        <a href="/" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/')]}>{site.name}</a>
         <nav class="flex items-center gap-1">
           <a href="/talk" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/talk')]}>今日说法</a>
           <a href="/blog" class:list={['px-3 py-1.5 rounded-full transition-all duration-200', navClass('/blog')]}>文章</a>
@@ -75,9 +81,9 @@ function navClass(href: string) {
     <main class="flex-1">
       <slot />
     </main>
-
     <footer class="px-8 py-6 border-t border-fg/10 text-sm opacity-60">
-      ruijieking
+      {site.name}
     </footer>
+
   </body>
 </html>
