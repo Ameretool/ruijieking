@@ -9,13 +9,16 @@ const darkDir = path.join(wallpaperDir, 'dark');
 
 const imageExt = /\.(jpg|jpeg|png|webp|gif)$/i;
 
-const lightImages = fs.readdirSync(lightDir)
-  .filter((f: string) => imageExt.test(f))
-  .map((f: string) => `/wallpaper/light/${f}`);
+// 读取目录下所有图片；目录不存在时返回空数组，保证基础模板构建成功
+function listImages(dir: string, prefix: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .filter((f: string) => imageExt.test(f))
+    .map((f: string) => `${prefix}/${f}`);
+}
 
-const darkImages = fs.readdirSync(darkDir)
-  .filter((f: string) => imageExt.test(f))
-  .map((f: string) => `/wallpaper/dark/${f}`);
+const lightImages = listImages(lightDir, '/wallpaper/light');
+const darkImages = listImages(darkDir, '/wallpaper/dark');
 ---
 
 <button
@@ -32,7 +35,7 @@ const darkImages = fs.readdirSync(darkDir)
 <!-- 下拉卡片（隐藏态） -->
 <div
   id="wallpaper-card"
-  class="fixed top-16 right-4 z-40 w-72 max-h-[60vh]
+  class="fixed top-16 right-4 z-[60] w-72 max-h-[60vh]
          bg-bg/85 backdrop-blur-xl
          rounded-2xl shadow-xl shadow-black/10
          ring-1 ring-fg/10
@@ -77,6 +80,10 @@ const darkImages = fs.readdirSync(darkDir)
   const closeBtn = document.getElementById('wallpaper-close');
   const clearBtn = document.getElementById('wallpaper-clear');
   const countEl = document.getElementById('wallpaper-count');
+
+  // 把壁纸卡片挂到 body 下，脱离导航栏的 overflow-x-auto 和毛玻璃(backdrop-filter)
+  // 包含块影响——否则 fixed 定位会失效，卡片会被困在导航栏里点不开
+  document.body.appendChild(card);
 
   let isOpen = false;
 

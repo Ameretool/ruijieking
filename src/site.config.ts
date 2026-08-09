@@ -15,7 +15,6 @@ export const site = {
   url: '',                                    // 站点域名（暂无，先留空，有域名后填 https://xxx.com）
   ogImage: '/wallpaper/light/默认light.png',   // 社交分享预览图（默认 light 壁纸，1200×630 最佳）
   ogSiteName: 'ruijieking',                   // 分享卡片上显示的站点名
-  canonical: '/blog',                         // 规范化链接（暂定文章页，之后可改为首页）
 
   // 作者信息
   author: {

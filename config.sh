@@ -19,47 +19,59 @@ git config user.name "$GIT_USER"
 git config user.email "$GIT_EMAIL"
 echo "✅ 已设置：$GIT_USER <$GIT_EMAIL>"
 
-# ============ 粘贴 GitHub Token（交互式） ============
+# ============ SSH 密钥配置（更安全，不保存任何密码到磁盘） ============
 echo ""
-echo "============ 配置 GitHub Token ============"
-echo "1. 打开 https://github.com/settings/tokens 生成一个 Personal Access Token"
-echo "2. 勾选 repo（或适合你的权限范围）"
-echo "3. 粘贴生成的 token（ghp_ 开头），按回车："
+echo "============ SSH 密钥配置 ============"
+SSH_KEY="$HOME/.ssh/id_ed25519"
+
+if [ -f "$SSH_KEY.pub" ]; then
+    echo "✅ 检测到已存在的 SSH 公钥：$SSH_KEY.pub"
+else
+    echo "未找到 SSH 密钥，正在生成（ed25519 算法）……"
+    mkdir -p "$HOME/.ssh"
+    ssh-keygen -t ed25519 -C "$GIT_EMAIL" -N "" -f "$SSH_KEY"
+    echo "✅ SSH 密钥已生成"
+fi
+
 echo ""
-read -r -s GITHUB_TOKEN
+echo "下面是你的公钥，请复制并添加到 GitHub："
+echo "  1. 打开 https://github.com/settings/keys"
+echo "  2. 点 New SSH key，粘贴下面的内容，保存"
+echo ""
+cat "$SSH_KEY.pub"
 echo ""
 
-if [ -z "$GITHUB_TOKEN" ]; then
-    echo "❌ 未检测到 Token，已取消。"
+read -r -p "添加完成后按回车，测试 SSH 连接……" _
+ssh -o StrictHostKeyChecking=accept-new -T git@github.com
+echo ""
+echo "（如果上面显示 Hi <用户名>! You've successfully authenticated，说明 SSH 配置成功）"
+echo ""
+echo "配置远程仓库（SSH 格式）："
+
+
+# ============ 关联远程仓库（SSH 格式） ============
+read -r -p "输入你的 GitHub 仓库名（如 New-blog-v3）: " GIT_REPO
+if [ -z "$GIT_REPO" ]; then
+    echo "❌ 你仓库名呢???"
     exit 1
 fi
 
-# 保存到 git 凭据存储
-echo "正在配置 git 凭据……"
-git config credential.helper store
-echo "https://${GIT_USER}:${GITHUB_TOKEN}@github.com" > "$HOME/.git-credentials"
-chmod 600 "$HOME/.git-credentials"
+GIT_REMOTE="git@github.com:${GIT_USER}/${GIT_REPO}.git"
 
-echo ""
-echo "✅ GitHub Token 已配置完成（保存在 ~/.git-credentials，权限 600）"
-echo "以后通过 HTTPS push / pull 不再需要输入用户名密码。"
-echo ""
-echo "配置远程仓库示例（如果你的仓库还没关联）："
-
-
-# ============ 粘贴 GitHub 仓库地址（交互式） ============
-read -r -p "输入你的 GitHub 仓库地址: " GIT_REMOTE
-if [ -z "$GIT_REMOTE" ]; then
-    echo "❌ 你仓库地址呢???"
-    exit 1
-fi
-
-# 关联远程仓库（origin 已存在则更新地址）
+# 已存在 origin 则先移除，避免重复
+git remote remove origin 2>/dev/null
 git remote add origin "$GIT_REMOTE"
 echo "✅ 远程仓库已关联：origin → $GIT_REMOTE"
-echo "✅ 用户名: $GIT_USER
-✅ 邮箱: $GIT_EMAIL
-✅ Token: $GITHUB_TOKEN
-✅ 仓库: $GIT_REMOTE"
-echo "✅ 所有 GitHub 上传文件配置成功"
+
+echo ""
+echo "✅ 全部配置完成！"
+echo "  - 用户名: $GIT_USER"
+echo "  - 邮箱:   $GIT_EMAIL"
+echo "  - 远程:   $GIT_REMOTE"
+echo "  - 认证:   SSH（不保存任何密码到磁盘）"
+echo ""
+echo "以后推送：./push.sh 或 git push origin main"
+echo ""
+echo "⚠️ 安全提示：如果你之前用旧版脚本保存过 Token，建议清理明文凭据："
+echo "   rm -f ~/.git-credentials && git config --unset credential.helper"
 
