@@ -22,3 +22,4 @@ const talk = defineCollection({
 });
 
 export const collections = { blog, talk };
+

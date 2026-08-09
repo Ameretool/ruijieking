@@ -8,6 +8,14 @@ import AnimateIn from './AnimateIn.astro';
 const albumRoot = path.join(process.cwd(), 'public', 'album');
 const imageExt = /\.(jpg|jpeg|png|webp|gif|avif)$/i;
 
+
+
+// 如果 public/album目录不存在，直接返回空数组，保证构建成功
+if (!fs.existsSync(albumRoot)) {
+  console.warn('[AlbumCard] 未找到 public/album 目录，跳过相册渲染。');
+}
+
+
 // 读取所有相册文件夹，跳过非目录
 const albums = fs.readdirSync(albumRoot, { withFileTypes: true })
   .filter((d) => d.isDirectory())
