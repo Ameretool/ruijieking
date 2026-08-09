@@ -21,12 +21,48 @@ function formatMonthDay(dateStr: string) {
   const [, month, day] = dateStr.split('-');
   return `${parseInt(month)}月${parseInt(day)}日`;
 }
+
+// 收集所有文章里出现过的唯一标签（用于归档页标签栏）
+const allTags = [...new Set(
+  posts.flatMap((post) => post.data.tags ?? []),
+)].sort((a, b) => a.localeCompare(b));
 ---
 
 <div class="max-w-2xl mx-auto px-6 pt-24 pb-16">
   <p class="text-xs tracking-[0.3em] uppercase text-fg/30 mb-3">TIMELINE / 时光轴</p>
   <h1 class="text-3xl font-bold mb-6">归档</h1>
-  <hr class="border-fg/10 mb-8" />
+
+  <!-- 搜索栏：按标题/标签即时过滤 -->
+  <input
+    id="archive-search"
+    type="search"
+    placeholder="🔍 搜索文章标题或标签…"
+    class="w-full px-4 py-2.5 rounded-xl text-sm
+           bg-bg/60 border border-fg/10
+           text-fg placeholder:text-fg/30
+           focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20
+           transition-colors"
+  />
+
+  <!-- 标签栏：自动收集所有文章标签，可多选 -->
+  {allTags.length > 0 && (
+    <div id="archive-tags" class="flex flex-wrap gap-2 mt-4">
+      {allTags.map((tag) => (
+        <button
+          type="button"
+          data-tag={tag}
+          class="tag-btn px-2.5 py-1 rounded-full text-xs
+                 bg-fg/5 text-fg/60 border border-fg/10
+                 hover:border-accent/40 hover:text-accent
+                 transition-colors"
+        >
+          #{tag}
+        </button>
+      ))}
+    </div>
+  )}
+
+  <hr class="border-fg/10 mb-8 mt-6" />
 
   <ReadFrostedGlass>
   {posts.length === 0 ? (
@@ -37,6 +73,7 @@ function formatMonthDay(dateStr: string) {
       <div class="absolute left-[13px] top-2 bottom-2 w-px bg-fg/10"></div>
 
       <div class="flex flex-col">
+        <p id="archive-empty" class="hidden text-fg/50 text-center py-10">没有找到相关文章。</p>
         <style>
           summary::-webkit-details-marker{display:none}
           summary::marker{content:""}
@@ -48,7 +85,8 @@ function formatMonthDay(dateStr: string) {
           return (
             <AnimateIn delay={i * 100}>
             <details
-              class="relative"
+              class="relative archive-year"
+              data-year={year}
               open={isLatest}
             >
               {/* 年份摘要行：交互圆点（含箭头） + 年份 + 文章数 */}
@@ -85,7 +123,9 @@ function formatMonthDay(dateStr: string) {
                 {yearPosts.map((post) => (
                   <a
                     href={`/blog/${post.id}`}
-                    class="flex items-baseline gap-4 text-base leading-relaxed
+                    data-title={post.data.title}
+                    data-tags={(post.data.tags ?? []).join(' ')}
+                    class="archive-item flex items-baseline gap-4 text-base leading-relaxed
                            text-fg/50 hover:text-accent transition-colors duration-200"
                   >
                     <!-- 月日日期 -->
@@ -106,3 +146,73 @@ function formatMonthDay(dateStr: string) {
   )}
   </ReadFrostedGlass>
 </div>
+
+<script define:vars={{ allTags }}>
+  // ===== 归档搜索 + 多标签过滤（过滤现有 DOM，SEO 友好） =====
+  const searchInput = document.getElementById('archive-search');
+  const tagBar = document.getElementById('archive-tags');
+  const items = Array.from(document.querySelectorAll('.archive-item'));
+  const yearGroups = Array.from(document.querySelectorAll('.archive-year'));
+  const emptyTip = document.getElementById('archive-empty');
+
+  let query = '';
+  const selectedTags = new Set();
+
+  function matches(item) {
+    const title = (item.dataset.title || '').toLowerCase();
+    const tags = (item.dataset.tags || '').toLowerCase();
+    // 搜索词：命中标题或标签
+    if (query && !title.includes(query) && !tags.includes(query)) return false;
+    // 多标签：文章必须包含所有已选标签
+    for (const t of selectedTags) {
+      if (!tags.includes(t)) return false;
+    }
+    return true;
+  }
+
+  function applyFilter() {
+    let visibleCount = 0;
+    for (const item of items) {
+      const show = matches(item);
+      item.classList.toggle('hidden', !show);
+      if (show) visibleCount++;
+    }
+    // 年份组：该年内没有可见文章就整组隐藏（连同外层 AnimateIn 容器）
+    for (const group of yearGroups) {
+      const anyVisible = Array.from(group.querySelectorAll('.archive-item'))
+        .some((i) => !i.classList.contains('hidden'));
+      const container = group.closest('.animate-in') || group;
+      container.classList.toggle('hidden', !anyVisible);
+    }
+    // 无结果提示
+    if (emptyTip) emptyTip.classList.toggle('hidden', visibleCount > 0);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      query = e.target.value.trim().toLowerCase();
+      applyFilter();
+    });
+  }
+
+  if (tagBar) {
+    tagBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tag-btn');
+      if (!btn) return;
+      // 统一转小写，与 matches() 里 dataset.tags 的小写比较保持一致
+      const tag = (btn.dataset.tag || '').toLowerCase();
+      if (selectedTags.has(tag)) {
+        // 取消选中
+        selectedTags.delete(tag);
+        btn.classList.remove('bg-accent', 'text-white', 'border-accent');
+        btn.classList.add('bg-fg/5', 'text-fg/60', 'border-fg/10');
+      } else {
+        // 选中
+        selectedTags.add(tag);
+        btn.classList.remove('bg-fg/5', 'text-fg/60', 'border-fg/10');
+        btn.classList.add('bg-accent', 'text-white', 'border-accent');
+      }
+      applyFilter();
+    });
+  }
+</script>

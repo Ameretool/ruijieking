@@ -38,7 +38,9 @@ const { title, description, pubDate, category, tags } = post.data;
     image: site.url + site.ogImage,
   }}
 >
-  <div class="max-w-2xl mx-auto px-6 pt-24 pb-16">
+  <div class="max-w-5xl mx-auto px-6 pt-24 pb-16 flex items-start gap-10">
+    <!-- 正文区 -->
+    <div class="flex-1 min-w-0 max-w-2xl mx-auto">
     <ReadFrostedGlass>
       <!-- 分类标签 -->
       <AnimateIn delay={0}>
@@ -82,9 +84,9 @@ const { title, description, pubDate, category, tags } = post.data;
     </div>
     </AnimateIn>
 
-    <!-- 正文：prose 排版 -->
+    <!-- id="post-content" 正文：prose 排版 -->
     <AnimateIn delay={320}>
-    <div class="mt-8 prose prose-neutral dark:prose-invert max-w-none text-lg
+    <div id="post-content" class="mt-8 prose prose-neutral dark:prose-invert max-w-none text-lg
                 prose-p:leading-relaxed prose-p:my-5 prose-p:text-fg/80
                 prose-headings:text-fg prose-headings:font-semibold prose-headings:mt-10 prose-headings:mb-5
                 prose-h2:text-2xl prose-h3:text-xl
@@ -101,5 +103,72 @@ const { title, description, pubDate, category, tags } = post.data;
     </div>
     </AnimateIn>
     </ReadFrostedGlass>
+    </div>
+
+    <!-- 右侧目录（桌面端显示，手机端隐藏） -->
+    <aside id="post-toc-aside" class="hidden md:block w-60 shrink-0 sticky top-24">
+      <ReadFrostedGlass>
+        <p class="text-xs tracking-[0.3em] uppercase text-fg/30 mb-3">目录</p>
+        <nav id="post-toc" class="flex flex-col gap-1 max-h-[60vh] overflow-y-auto no-scrollbar"></nav>
+      </ReadFrostedGlass>
+    </aside>
   </div>
+
+  <script>
+    // @ts-nocheck
+    // ===== 前端扫描 h1-h2 生成文章目录 =====
+    const content = document.getElementById('post-content');
+    const toc = document.getElementById('post-toc');
+    if (content && toc) {
+      const headings = Array.from(content.querySelectorAll('h1, h2'));
+      const links: HTMLAnchorElement[] = [];
+
+      headings.forEach((h, i) => {
+        const id = 'post-heading-' + i;
+        h.id = id;
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.className = 'text-sm text-fg/50 hover:text-accent transition-colors py-1 px-2 rounded-md border-l-2 border-transparent';
+        a.dataset.target = id;
+        a.textContent = h.textContent;
+        toc.appendChild(a);
+        links.push(a);
+      });
+
+      // 文章没有 h1/h2 时隐藏目录卡片
+      if (links.length === 0) {
+        const aside = document.getElementById('post-toc-aside');
+        if (aside) aside.classList.add('hidden');
+      }
+
+      // 点击目录项 → 平滑滚动到对应标题
+      toc.addEventListener('click', (e) => {
+        const el = e.target as HTMLElement | null;
+        const a = el?.closest<HTMLAnchorElement>('a[data-target]');
+        if (!a) return;
+        e.preventDefault();
+        const target = document.getElementById(a.dataset.target ?? '');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // 滚动时高亮当前所在章节
+      function highlightCurrent() {
+        let currentId = null;
+        for (const h of headings) {
+          if (h.getBoundingClientRect().top <= 100) currentId = h.id;
+        }
+        for (const a of links) {
+          const active = a.dataset.target === currentId;
+          a.classList.toggle('text-accent', active);
+          a.classList.toggle('bg-accent/10', active);
+          a.classList.toggle('border-accent', active);
+          a.classList.toggle('font-medium', active);
+          a.classList.toggle('text-fg/50', !active);
+          a.classList.toggle('border-transparent', !active);
+        }
+      }
+      window.addEventListener('scroll', highlightCurrent, { passive: true });
+      highlightCurrent();
+    }
+  </script>
 </BaseLayout>
