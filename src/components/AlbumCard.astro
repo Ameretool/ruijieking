@@ -10,30 +10,27 @@ const imageExt = /\.(jpg|jpeg|png|webp|gif|avif)$/i;
 
 
 
-// 如果 public/album目录不存在，直接返回空数组，保证构建成功
-if (!fs.existsSync(albumRoot)) {
-  console.warn('[AlbumCard] 未找到 public/album 目录，跳过相册渲染。');
+// 如果 public/album 目录不存在，直接返回空数组，保证构建成功
+let albums: { name: string; images: string[]; mtime: number }[] = [];
+if (fs.existsSync(albumRoot)) {
+  albums = fs.readdirSync(albumRoot, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => {
+      const dir = path.join(albumRoot, d.name);
+      const images = fs.readdirSync(dir)
+        .filter((f) => imageExt.test(f))
+        .sort();
+      // 相册时间：取最新一张照片的修改时间
+      let mtime = 0;
+      for (const img of images) {
+        const t = fs.statSync(path.join(dir, img)).mtimeMs;
+        if (t > mtime) mtime = t;
+      }
+      return { name: d.name, images, mtime };
+    })
+    .filter((a) => a.images.length > 0)
+    .sort((a, b) => b.mtime - a.mtime);
 }
-
-
-// 读取所有相册文件夹，跳过非目录
-const albums = fs.readdirSync(albumRoot, { withFileTypes: true })
-  .filter((d) => d.isDirectory())
-  .map((d) => {
-    const dir = path.join(albumRoot, d.name);
-    const images = fs.readdirSync(dir)
-      .filter((f) => imageExt.test(f))
-      .sort();
-    // 相册时间：取最新一张照片的修改时间
-    let mtime = 0;
-    for (const img of images) {
-      const t = fs.statSync(path.join(dir, img)).mtimeMs;
-      if (t > mtime) mtime = t;
-    }
-    return { name: d.name, images, mtime };
-  })
-  .filter((a) => a.images.length > 0)
-  .sort((a, b) => b.mtime - a.mtime);
 ---
 
 <div class="grid grid-cols-3 gap-4">

@@ -12,6 +12,8 @@ export async function getStaticPaths() {
   // 注意：getStaticPaths 是独立模块导出，访问不到 frontmatter 顶层的常量，
   // 所以这里需要重新定义
   const albumRoot = path.join(process.cwd(), 'public', 'album');
+  // 目录不存在时返回空，保证基础模板（无相册目录）也能构建成功
+  if (!fs.existsSync(albumRoot)) return [];
   const dirs = fs.readdirSync(albumRoot, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
@@ -98,14 +100,14 @@ const srcs = images.map((img) => encodeURI(`/album/${album}/${img}`));
 
     const srcs = triggers.map((t) => {
       const img = t.querySelector('img');
-      return img ? img.getAttribute('src') : '';
+      return img ? img.getAttribute('src') ?? '' : '';
     });
 
     let current = 0;
 
     function openLightbox(index: number) {
       current = index;
-      lightboxImg.src = srcs[current];
+      lightboxImg.src = srcs[current] ?? '';
       lightboxImg.alt = `照片 ${current + 1}`;
       lightboxCount.textContent = `${current + 1} / ${srcs.length}`;
       lightbox.classList.remove('hidden');
