@@ -8,7 +8,7 @@
 [![License](screenshots/license-mit.svg)](LICENSE)
 [![Node.js](screenshots/node-22.svg)](https://nodejs.org)
 
-> **English** | [简体中文](./README.zh-CN.md)
+> **简体中文** | [English](./README.en.md)
 
 > 🌐 在线演示：<https://ruijieking.github.io>
 

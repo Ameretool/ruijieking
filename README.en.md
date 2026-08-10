@@ -10,7 +10,7 @@ A modern, minimal and good-looking personal blog template built with **Astro 7**
 [![License](screenshots/license-mit.svg)](LICENSE)
 [![Node.js](screenshots/node-22.svg)](https://nodejs.org)
 
-> **English** | [简体中文](./README.zh-CN.md)
+> **English** | [简体中文](./README.md)
 
 > 🌐 Live demo: <https://ruijieking.github.io>
 
