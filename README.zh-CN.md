@@ -2,9 +2,19 @@
 
 一个现代、高颜值，功能极简的个人博客模板，基于 **Astro** 与 **Tailwind CSS** 构建 —— 全静态、默认零客户端 JavaScript，只需修改一个配置文件即可完成个性化定制。
 **Astro** 与 **Tailwind CSS** 构建后生成在dist/文件夹内
+
+[![Astro](screenshots/astro-7.1.svg)](https://astro.build)
+[![Tailwind CSS](screenshots/tailwindcss-4.svg)](https://tailwindcss.com)
+[![License](screenshots/license-mit.svg)](LICENSE)
+[![Node.js](screenshots/node-22.svg)](https://nodejs.org)
+
 > **English** | [简体中文](./README.zh-CN.md)
 
 > 🌐 在线演示：<https://ruijieking.github.io>
+
+## 📸 预览
+
+![首页](screenshots/screenshot-home.png)
 
 ## ✨ 功能特性
 
@@ -22,7 +32,17 @@
 - ⚡ **图片自动优化**（`astro:assets` + `sharp`，输出 WebP）
 - 🚀 **一键部署**到 GitHub Pages（GitHub Actions 自动构建）
 
-## 🚀 快速开始
+## �️ 截图
+
+| 文章列表 | 文章详情 |
+| --- | --- |
+| ![文章列表](screenshots/screenshot-blog.png) | ![文章详情](screenshots/screenshot-post.png) |
+
+| 归档 | 相册 |
+| --- | --- |
+| ![归档](screenshots/screenshot-archive.png) | ![相册](screenshots/screenshot-photo.png) |
+
+## �🚀 快速开始
 
 ### 环境要求
 
