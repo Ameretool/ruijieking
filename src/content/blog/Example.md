@@ -1,3 +1,12 @@
+---
+title: 'Example'           
+description: 'this is Example' 
+pubDate: '2026-08-11'         
+category: 'tutorial'              
+tags: ['astro', 'tutorial','Example']       
+---
+
+
 
 
 # Astro Blog Template
@@ -5,18 +14,9 @@
 
 A modern, feature-rich personal blog template built with **Astro 7** and **Tailwind CSS 4** — fully static, zero client-side JavaScript by default, and easy to customize from a single config file.
 
-[![Astro](screenshots/astro-7.1.svg)](https://astro.build)
-[![Tailwind CSS](screenshots/tailwindcss-4.svg)](https://tailwindcss.com)
-[![License](screenshots/license-mit.svg)](LICENSE)
-[![Node.js](screenshots/node-22.svg)](https://nodejs.org)
-
 > **English** | [简体中文](./README.zh-CN.md)
 
 > 🌐 Live demo: <https://ruijieking.github.io>
-
-## 📸 Preview
-
-![Home page](screenshots/screenshot-home.png)
 
 ## ✨ Features
 
@@ -34,15 +34,6 @@ A modern, feature-rich personal blog template built with **Astro 7** and **Tailw
 - ⚡ **Optimized images** out of the box (`astro:assets` + `sharp`, WebP output)
 - 🚀 **One-command deploy** to GitHub Pages via GitHub Actions
 
-## �️ Screenshots
-
-| Blog list | Post page |
-| --- | --- |
-| ![Blog list](screenshots/screenshot-blog.png) | ![Post page](screenshots/screenshot-post.png) |
-
-| Archive | Photo gallery |
-| --- | --- |
-| ![Archive](screenshots/screenshot-archive.png) | ![Photo gallery](screenshots/screenshot-photo.png) |
 
 ## �🚀 Quick Start
 
