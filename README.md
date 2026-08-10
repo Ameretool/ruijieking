@@ -3,7 +3,7 @@
 # Astro Blog Template
 
 
-A modern, feature-rich personal blog template built with **Astro 7** and **Tailwind CSS 4** — fully static, zero client-side JavaScript by default, and easy to customize from a single config file.
+A modern, minimal and good-looking personal blog template built with **Astro 7** and **Tailwind CSS 4** — the homepage is left blank for you to build on. Fully static, zero client-side JavaScript by default, and easy to customize from a single config file.
 
 [![Astro](screenshots/astro-7.1.svg)](https://astro.build)
 [![Tailwind CSS](screenshots/tailwindcss-4.svg)](https://tailwindcss.com)
@@ -20,6 +20,7 @@ A modern, feature-rich personal blog template built with **Astro 7** and **Tailw
 
 ## ✨ Features
 
+- **Minimal** — a lightweight, good-looking basic blog, ready to extend
 - 🌗 **Dark / Light theme** with FOUC (flash-of-unstyled-content) protection, remembers your choice
 - 🖼️ **Wallpaper system** — separate wallpaper sets per theme, cross-fade transitions, persisted per theme
 - 📝 **Blog** powered by Astro content collections (title, description, pubDate, category, tags)
@@ -108,11 +109,11 @@ Add a Markdown file to `src/content/blog/`:
 
 ```md
 ---
-title: 'Hello World'
-description: 'My first post'
-pubDate: '2026-01-01'
-category: 'Life'          # optional
-tags: ['astro', 'blog']   # optional
+title: 'Hello World'         # required
+description: 'My first post' # required
+pubDate: '2026-01-01'        # required
+category: 'Life'             # optional
+tags: ['astro', 'blog']      # optional
 ---
 
 Content here…
@@ -132,7 +133,7 @@ Short note text…
 
 ### Photo albums
 
-Create a folder inside `src/assets/album/` — **each folder becomes an album**, and its images are displayed automatically:
+Create a folder inside `src/assets/album/` — **each folder becomes an album (the folder name becomes the album name)**, and its images are displayed automatically:
 
 ```
 src/assets/album/
@@ -179,7 +180,7 @@ A file named `默认light.png` / `默认dark.png` (or the first file in each fol
 
 ## 🚢 Deployment
 
-### GitHub Pages (recommended)
+### GitHub Pages (highly recommended if you don't need a backend — free and simple)
 
 The included workflow at `.github/workflows/deploy.yml` builds and deploys automatically on every push to `main`:
 

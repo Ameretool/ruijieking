@@ -18,19 +18,23 @@ const { delay = 0 } = Astro.props;
 
 <style>
   .animate-in {
-    /* 入场动画：上移 + 淡入，位移加大让动作更明显 */
+    /* 入场动画：从中心向外缩放 + 淡入（涟漪水波扩散感） */
     /* 静态态不隐藏（保持可见，避免切页背景闪现），动画播放时再淡入 */
-    transform: translateY(28px);
-    animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform: scale(0.6);
+    animation: rippleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
-  @keyframes fadeUp {
+  @keyframes rippleIn {
     from {
       opacity: 0;
+      transform: scale(0.6);
+    }
+    70% {
+      transform: scale(1.012); /* 水波轻微过冲（细腻） */
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: scale(1);
     }
   }
 </style>

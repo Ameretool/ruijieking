@@ -1,6 +1,6 @@
 # Astro 博客模板
 
-一个现代、高颜值，功能极简的个人博客模板，基于 **Astro** 与 **Tailwind CSS** 构建 —— 全静态、默认零客户端 JavaScript，只需修改一个配置文件即可完成个性化定制。
+一个现代、高颜值，功能极简的个人博客模板（主页留空等待你来开发），基于 **Astro** 与 **Tailwind CSS** 构建 —— 全静态、默认零客户端 JavaScript，只需修改一个配置文件即可完成个性化定制。
 **Astro** 与 **Tailwind CSS** 构建后生成在dist/文件夹内
 
 [![Astro](screenshots/astro-7.1.svg)](https://astro.build)
@@ -17,7 +17,7 @@
 ![首页](screenshots/screenshot-home.png)
 
 ## ✨ 功能特性
-
+- **极简**一个不臃肿且高颜值的基础博客
 - 🌗 **明暗主题切换** —— 防首屏闪烁（FOUC），自动记忆你的选择
 - 🖼️ **壁纸系统** —— 明暗主题各配一套壁纸，交叉淡入淡出过渡，按主题分别记忆
 - 📝 **博客文章**    —— 基于 Astro content collections（标题、描述、日期、分类、标签）

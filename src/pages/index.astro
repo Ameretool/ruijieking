@@ -1,8 +1,14 @@
 ---
 // 首页 - 网站主页
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AnimateIn from '../components/AnimateIn.astro';
 ---
 
 <BaseLayout title="首页">
- 
+    <div class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+        <AnimateIn>
+        <p class="text-xs tracking-[0.3em] uppercase text-fg/30 mb-3">WELCOME / 欢迎</p>
+        </AnimateIn>
+    </div>
+
 </BaseLayout>
