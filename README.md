@@ -14,7 +14,7 @@
 
 ## 📸 预览
 
-![首页](screenshots/screenshot-home.png)
+![首页](screenshots/main.png)
 
 ## ✨ 功能特性
 - **极简**一个不臃肿且高颜值的基础博客
@@ -34,13 +34,9 @@
 
 ## �️ 截图
 
-| 文章列表 | 文章详情 |
-| --- | --- |
-| ![文章列表](screenshots/screenshot-blog.png) | ![文章详情](screenshots/screenshot-post.png) |
-
-| 归档 | 相册 |
-| --- | --- |
-| ![归档](screenshots/screenshot-archive.png) | ![相册](screenshots/screenshot-photo.png) |
+| 文章详情 | 归档 | 说说 |
+| --- | --- | --- |
+| ![文章详情](screenshots/post.png) | ![归档](screenshots/screenshot-archive.png) | ![说说](screenshots/screenshot-talk.png) |
 
 ## �🚀 快速开始
 

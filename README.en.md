@@ -16,7 +16,7 @@ A modern, minimal and good-looking personal blog template built with **Astro 7**
 
 ## 📸 Preview
 
-![Home page](screenshots/screenshot-home.png)
+![Home](screenshots/main.png)
 
 ## ✨ Features
 
@@ -37,13 +37,13 @@ A modern, minimal and good-looking personal blog template built with **Astro 7**
 
 ## �️ Screenshots
 
-| Blog list | Post page |
+| Home | Post |
 | --- | --- |
-| ![Blog list](screenshots/screenshot-blog.png) | ![Post page](screenshots/screenshot-post.png) |
+| ![Home](screenshots/csreenshuot-home.png) | ![Post](screenshots/screenshots-post.png) |
 
-| Archive | Photo gallery |
+| Archive | Talk |
 | --- | --- |
-| ![Archive](screenshots/screenshot-archive.png) | ![Photo gallery](screenshots/screenshot-photo.png) |
+| ![Archive](screenshots/screenshot-archive.png) | ![Talk](screenshots/screenshot-talk.png) |
 
 ## �🚀 Quick Start
 
