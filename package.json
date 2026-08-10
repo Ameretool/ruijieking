@@ -1,8 +1,25 @@
 {
   "name": "astro-blog-template",
-  "description": "基于 Astro 7 + Tailwind CSS v4 的博客模板：明暗主题、壁纸系统、相册、今日说法、SEO、RSS、Sitemap",
-  "type": "module",
+  "description": "A modern blog template built with Astro 7 and Tailwind CSS 4. Dark/light themes, wallpaper system, photo albums, daily talk, archive with search & tags, table of contents, full SEO, RSS and sitemap.",
   "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://ruijieking.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruijieking/New-blog-v3.git"
+  },
+  "keywords": [
+    "astro",
+    "astro-template",
+    "astro-blog",
+    "blog",
+    "blog-template",
+    "tailwindcss",
+    "tailwind",
+    "astro-component",
+    "withastro"
+  ],
   "engines": {
     "node": ">=22.12.0"
   },

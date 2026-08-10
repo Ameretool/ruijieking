@@ -18,13 +18,18 @@ const { delay = 0 } = Astro.props;
 
 <style>
   .animate-in {
-    /* 内容始终可见（不隐藏成透明），只做轻微上移动画，避免切页时背景闪现 */
-    transform: translateY(8px);
-    animation: fadeUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* 入场动画：上移 + 淡入，位移加大让动作更明显 */
+    /* 静态态不隐藏（保持可见，避免切页背景闪现），动画播放时再淡入 */
+    transform: translateY(28px);
+    animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   @keyframes fadeUp {
+    from {
+      opacity: 0;
+    }
     to {
+      opacity: 1;
       transform: translateY(0);
     }
   }
