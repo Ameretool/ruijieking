@@ -1,9 +1,7 @@
+# Astro 博客模板
 
-
-# Astro Blog Template
-
-
-A modern, minimal and good-looking personal blog template built with **Astro 7** and **Tailwind CSS 4** — the homepage is left blank for you to build on. Fully static, zero client-side JavaScript by default, and easy to customize from a single config file.
+一个现代、高颜值，功能极简的个人博客模板（主页留空等待你来开发），基于 **Astro** 与 **Tailwind CSS** 构建 —— 全静态、默认零客户端 JavaScript，只需修改一个配置文件即可完成个性化定制。
+**Astro** 与 **Tailwind CSS** 构建后生成在dist/文件夹内
 
 [![Astro](screenshots/astro-7.1.svg)](https://astro.build)
 [![Tailwind CSS](screenshots/tailwindcss-4.svg)](https://tailwindcss.com)
@@ -12,204 +10,202 @@ A modern, minimal and good-looking personal blog template built with **Astro 7**
 
 > **English** | [简体中文](./README.zh-CN.md)
 
-> 🌐 Live demo: <https://ruijieking.github.io>
+> 🌐 在线演示：<https://ruijieking.github.io>
 
-## 📸 Preview
+## 📸 预览
 
-![Home page](screenshots/screenshot-home.png)
+![首页](screenshots/screenshot-home.png)
 
-## ✨ Features
+## ✨ 功能特性
+- **极简**一个不臃肿且高颜值的基础博客
+- 🌗 **明暗主题切换** —— 防首屏闪烁（FOUC），自动记忆你的选择
+- 🖼️ **壁纸系统** —— 明暗主题各配一套壁纸，交叉淡入淡出过渡，按主题分别记忆
+- 📝 **博客文章**    —— 基于 Astro content collections（标题、描述、日期、分类、标签）
+- 📚 **归档时间轴** —— 按年份分组，支持**即时搜索**和**多标签过滤**
+- 💬 **今日说法** —— 轻量级碎碎念 / 短笔记板块
+- 📷 **照片相册** —— 文件夹即相册，三层叠加封面 + **灯箱（Lightbox）** 大图查看
+- 📑 **文章目录** —— 从文章标题自动生成，点击平滑滚动
+- 🔍 **完整 SEO** —— Open Graph、Twitter Cards、canonical 链接、JSON-LD 结构化数据
+- 📡 **RSS 订阅**、**sitemap**、**robots.txt**
+- ✨ 滚动入场动画 + 磨砂玻璃卡片设计
+- 📱 完全响应式，移动端汉堡菜单
+- ⚡ **图片自动优化**（`astro:assets` + `sharp`，输出 WebP）
+- 🚀 **一键部署**到 GitHub Pages（GitHub Actions 自动构建）
 
-- **Minimal** — a lightweight, good-looking basic blog, ready to extend
-- 🌗 **Dark / Light theme** with FOUC (flash-of-unstyled-content) protection, remembers your choice
-- 🖼️ **Wallpaper system** — separate wallpaper sets per theme, cross-fade transitions, persisted per theme
-- 📝 **Blog** powered by Astro content collections (title, description, pubDate, category, tags)
-- 📚 **Archive timeline** grouped by year, with **instant search** and **multi-tag filtering**
-- 💬 **Daily Talk** — a lightweight microblog / short-note section
-- 📷 **Photo albums** — folder-based albums with stacked covers and a **lightbox** viewer
-- 📑 **Table of contents** auto-generated from headings on each post page
-- 🔍 **Full SEO** — Open Graph, Twitter Cards, canonical URLs, and JSON-LD structured data
-- 📡 **RSS feed**, **sitemap**, and **robots.txt**
-- ✨ Scroll-in animations and frosted-glass card design
-- 📱 Fully responsive, with a mobile hamburger menu
-- ⚡ **Optimized images** out of the box (`astro:assets` + `sharp`, WebP output)
-- 🚀 **One-command deploy** to GitHub Pages via GitHub Actions
+## �️ 截图
 
-## �️ Screenshots
-
-| Blog list | Post page |
+| 文章列表 | 文章详情 |
 | --- | --- |
-| ![Blog list](screenshots/screenshot-blog.png) | ![Post page](screenshots/screenshot-post.png) |
+| ![文章列表](screenshots/screenshot-blog.png) | ![文章详情](screenshots/screenshot-post.png) |
 
-| Archive | Photo gallery |
+| 归档 | 相册 |
 | --- | --- |
-| ![Archive](screenshots/screenshot-archive.png) | ![Photo gallery](screenshots/screenshot-photo.png) |
+| ![归档](screenshots/screenshot-archive.png) | ![相册](screenshots/screenshot-photo.png) |
 
-## �🚀 Quick Start
+## �🚀 快速开始
 
-### Prerequisites
+### 环境要求
 
 - **Node.js** >= 22.12.0
-- npm (or pnpm / yarn)
+- npm（或 pnpm / yarn）
 
-### 1. Install
+### 1. 安装依赖
 
 ```bash
 npm install
 ```
 
-### 2. Develop
+### 2. 本地开发
 
-Start the dev server at <http://localhost:4321>:
+启动开发服务器，访问 <http://localhost:4321>：
 
 ```bash
 npm run dev
 ```
 
-### 3. Build & Preview
+### 3. 构建与预览
 
 ```bash
-npm run build     # outputs to dist/
-npm run preview   # preview the production build
+npm run build     # 输出到 dist/
+npm run preview   # 预览生产构建
 ```
 
-## 🎨 Customization
+## 🎨 个性化配置
 
-Everything you need to personalize the site lives in **one file**: `src/site.config.ts`. Change it once and the whole site updates automatically.
+站点所有个性化配置都在**一个文件**里：`src/site.config.ts`。改一次，全站自动更新。
 
 ```ts
 export const site = {
-  name: 'My Blog',                    // site name (logo, footer, page titles, SEO)
-  defaultTitle: 'My Blog',            // fallback page title
-  description: 'Write code, take photos, record life.',
-  url: 'https://example.com',         // your site domain
-  ogImage: '/og.png',                 // social share image (public/, 1200×630)
-  ogSiteName: 'My Blog',              // name shown on share cards
+  name: '我的博客',                    // 网站名称（logo、页脚、页面标题、SEO）
+  defaultTitle: '我的博客',            // 默认页面标题
+  description: '写代码、拍照片、记录生活。',
+  url: 'https://example.com',         // 你的站点域名⭐⭐⭐
+  ogImage: '/og.png',                 // 社交分享图（public/目录下，建议 1200×630）
+  ogSiteName: '我的博客',              // 分享卡片上显示的站点名
   author: {
-    name: 'Your Name',
+    name: '你的名字',
     github: 'your-github-username',
-    location: 'Your City',
+    location: '你的城市',
   },
-  about: 'This is my personal blog, built with Astro.',
+  about: '这是我的个人博客，用 Astro 构建。',
   nav: [
-    { href: '/talk', label: 'Talk' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/archive', label: 'Archive' },
-    { href: '/photo', label: 'Photo' },
-    { href: '/about', label: 'About' },
+    { href: '/talk', label: '今日说法' },
+    { href: '/blog', label: '文章' },
+    { href: '/archive', label: '归档' },
+    { href: '/photo', label: '照片' },
+    { href: '/about', label: '关于我' },
   ],
 };
 ```
 
-## 📝 Adding Content
+## 📝 添加内容
 
-### Blog posts
+### 博客文章
 
-Add a Markdown file to `src/content/blog/`:
+在 `src/content/blog/` 下新建 Markdown 文件：
 
 ```md
 ---
-title: 'Hello World'         # required
-description: 'My first post' # required
-pubDate: '2026-01-01'        # required
-category: 'Life'             # optional
-tags: ['astro', 'blog']      # optional
+title: '你好，世界'           # 必填
+description: '我的第一篇文章' # 必填
+pubDate: '2026-01-01'         # 必填   
+category: '生活'              # 可选
+tags: ['astro', '博客']       # 可选
 ---
 
-Content here…
+正文内容…
 ```
 
-### Daily Talk
+### 今日说法
 
-Add a Markdown file to `src/content/talk/` (no title required):
+在 `src/content/talk/` 下新建 Markdown 文件：
 
 ```md
 ---
 update: '2026-01-01-12:00'
 ---
 
-Short note text…
+短句内容…
 ```
 
-### Photo albums
+### 照片相册
 
-Create a folder inside `src/assets/album/` — **each folder becomes an album (the folder name becomes the album name)**, and its images are displayed automatically:
+在 `src/assets/album/` 下新建文件夹 —— **每个文件夹就是一个相册，文件夹名字就是照片的名字**，里面的图片自动展示：
 
 ```
 src/assets/album/
-├── Trip/          ← album: "Trip"
+├── 旅行/          ← 相册：「旅行」
 │   ├── photo1.jpg
 │   └── photo2.png
-└── Daily/
+└── 日常/
     └── photo3.jpg
 ```
 
-### Wallpapers
+### 壁纸
 
-Place wallpapers in `src/assets/wallpaper/`:
+把壁纸放到 `src/assets/wallpaper/` 下：
 
 ```
 src/assets/wallpaper/
-├── light/         ← wallpapers shown in light theme
-└── dark/          ← wallpapers shown in dark theme
+├── light/         ← 浅色主题显示的壁纸
+└── dark/          ← 深色主题显示的壁纸
 ```
 
-A file named `默认light.png` / `默认dark.png` (or the first file in each folder) is used as the default wallpaper.
+命名为 `默认light.png` / `默认dark.png` 的文件（或每个文件夹里的第一张图）会被用作默认壁纸。
 
-## 🗂️ Project Structure
+## 🗂️ 项目结构
 
 ```
-├── public/                 # static assets (favicon, og.png)
+├── public/                 # 静态资源（favicon、og.png）
 ├── src/
 │   ├── assets/
-│   │   ├── album/          # photo albums (folder = album)
-│   │   └── wallpaper/      # theme wallpapers (light/ dark/)
-│   ├── components/         # UI components
+│   │   ├── album/          # 照片相册（文件夹 = 相册）
+│   │   └── wallpaper/      # 主题壁纸（light/ dark/）
+│   ├── components/         # UI 组件
 │   ├── content/
-│   │   ├── blog/           # blog posts (.md)
-│   │   └── talk/           # daily talk notes (.md)
-│   ├── layouts/            # BaseLayout (theme, wallpapers, SEO)
-│   ├── pages/              # routes
-│   ├── styles/global.css   # Tailwind entry
-│   ├── content.config.ts   # content collection schemas
-│   └── site.config.ts      # ⭐ global site config
+│   │   ├── blog/           # 博客文章（.md）
+│   │   └── talk/           # 今日说法（.md）
+│   ├── layouts/            # BaseLayout（主题、壁纸、SEO）
+│   ├── pages/              # 页面路由
+│   ├── styles/global.css   # Tailwind 入口
+│   ├── content.config.ts   # 内容集合 schema
+│   └── site.config.ts      # ⭐ 全局站点配置
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
 ```
 
-## 🚢 Deployment
+## 🚢 部署
 
-### GitHub Pages (highly recommended if you don't need a backend — free and simple)
+### GitHub Pages（不做后端非常推荐，因为部署简单免费）
 
-The included workflow at `.github/workflows/deploy.yml` builds and deploys automatically on every push to `main`:
+项目自带的 `.github/workflows/deploy.yml` 会在每次 push 到 `main` 时自动构建并部署：
 
-1. Push this template to a GitHub repository.
-2. Go to **Settings → Pages** and set the source to **GitHub Actions**.
-3. Done — every push to `main` now rebuilds and redeploys.
+1. 把这个模板推送到一个 GitHub 仓库；
+2. 打开 **Settings → Pages**，把 Source 设置为 **GitHub Actions**；
+3. 完成 —— 之后每次 push 到 `main` 都会自动重新构建并部署。
 
-### Other platforms
+### 其他平台
 
-This is a static site — run `npm run build` and deploy the `dist/` folder to any host:
+这是一个纯静态站点 —— 执行 `npm run build` 后把 `dist/` 文件夹部署到任意托管平台即可：
 
-- **Netlify**: build command `npm run build`, publish directory `dist`
-- **Vercel**: framework preset **Astro**
-- **Cloudflare Pages**: build command `npm run build`, output directory `dist`
+- **Netlify**：构建命令 `npm run build`，发布目录 `dist`
+- **Vercel**：框架预设选择 **Astro**
+- **Cloudflare Pages**：构建命令 `npm run build`，输出目录 `dist`
 
-> 💡 Set `site.url` in `src/site.config.ts` to your production domain for correct canonical URLs, sitemap, and robots.txt.
+> 💡 记得在 `src/site.config.ts` 里把 `site.url` 设为你的线上域名，canonical、sitemap、robots.txt 才会正确生成。
 
-## 🛠️ Tech Stack
+## 🛠️ 技术栈
 
-| Tool | Purpose |
+| 工具 | 用途 |
 |---|---|
-| [Astro](https://astro.build) 7 | Static site framework |
-| [Tailwind CSS](https://tailwindcss.com) 4 | Styling (`@tailwindcss/vite`) |
-| [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography) | Post typography |
-| [astro:assets](https://docs.astro.build/en/guides/images/) + [sharp](https://sharp.pixelplumbing.com) | Image optimization |
-| [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/) | Sitemap generation |
-| [@astrojs/rss](https://docs.astro.build/en/guides/rss/) | RSS feed |
+| [Astro](https://astro.build) 7 | 静态站点框架 |
+| [Tailwind CSS](https://tailwindcss.com) 4 | 样式（`@tailwindcss/vite`） |
+| [@tailwindcss/typography](https://github.com/tailwindlabs/tailwindcss-typography) | 文章排版 |
+| [astro:assets](https://docs.astro.build/en/guides/images/) + [sharp](https://sharp.pixelplumbing.com) | 图片优化 |
+| [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/) | 站点地图 |
+| [@astrojs/rss](https://docs.astro.build/en/guides/rss/) | RSS 订阅源 |
 
-## 📄 License
+## 📄 许可证
 
 [MIT](./LICENSE) © 2026 ruijieking
-
