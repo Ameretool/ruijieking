@@ -9,7 +9,7 @@ export const GET: APIRoute = () => {
     'User-agent: *',
     'Allow: /',
     '',
-    `Sitemap: ${new URL('/sitemap.xml', domain).href}`,
+    `Sitemap: ${new URL('/sitemap-index.xml', domain).href}`,
   ].join('\n');
   return new Response(body, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
