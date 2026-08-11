@@ -12,7 +12,7 @@ export const site = {
   description: '写代码、拍照片、记录生活。',
 
   // ── SEO：分享与链接 ──
-  url: 'ruijieking.github.io/',                                    // 站点域名（暂无，先留空，有域名后填 https://xxx.com）
+  url: 'https://ruijieking.github.io/',            // 站点域名（必须带 https://，SEO/canonical/sitemap 依赖它）
   ogImage: '/og.png',                           // 社交分享预览图（public/og.png，建议 1200×630）
   ogSiteName: '我的博客',                      // 分享卡片上显示的站点名
 
