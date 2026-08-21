@@ -26,7 +26,7 @@ export const site = {
   // 关于页面的介绍文字
   about: '这是我的个人博客，用 Astro 构建。写代码、拍照片、记录生活。',
 
-  // 导航栏（href + 显示文字，数组顺序即显示顺序）
+  // 导航栏（href + 显示文字，数组顺序即显示顺序 导航路径这里修改）
   nav: [
     { href: './talk', label: '今日说法' },
     { href: './blog', label: '文章' },
