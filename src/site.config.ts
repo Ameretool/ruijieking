@@ -19,7 +19,7 @@ export const site = {
   // 作者信息
   author: {
     name: '你的名字',
-    github: 'your-github-username',
+    github: 'username',
     location: '你的城市',
   },
 
@@ -28,10 +28,10 @@ export const site = {
 
   // 导航栏（href + 显示文字，数组顺序即显示顺序）
   nav: [
-    { href: '/talk', label: '今日说法' },
-    { href: '/blog', label: '文章' },
-    { href: '/archive', label: '归档' },
-    { href: '/photo', label: '照片' },
-    { href: '/about', label: '关于我' },
+    { href: './talk', label: '今日说法' },
+    { href: './blog', label: '文章' },
+    { href: './archive', label: '归档' },
+    { href: './photo', label: '照片' },
+    { href: './about', label: '关于我' },
   ],
 };
