@@ -15,7 +15,7 @@ export const site = {
   url: 'https://Ameretool.github.io/ruijieking/',            // 站点域名（必须带 https://，SEO/canonical/sitemap 依赖它）
   ogImage: '/og.png',                           // 社交分享预览图（public/og.png，建议 1200×630）
   ogSiteName: '我的博客',                      // 分享卡片上显示的站点名
-  <style><link rel="stylesheet" href="https://org.ooo/ruijieking/_astro/BaseLayout.CiIhfANZ.css"></style>
+  <link rel="stylesheet" href="https://org.ooo/ruijieking/_astro/BaseLayout.CiIhfANZ.css">
 
   // 作者信息
   author: {
